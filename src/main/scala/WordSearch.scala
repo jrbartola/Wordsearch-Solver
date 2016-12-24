@@ -42,6 +42,15 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     var found = false
     var (startCoord, endCoord) = ((0,0), (0,0))
 
+    // Formulae to calculate starting and ending indices of words in the matrix
+    def revRowIndex(rowLength: Int, ix: Int): Int = rowLength match {
+      case x if x % 2 == 0 => (length - 1) - 2*ix + ix
+      case x if x % 2 == 1 => {
+        val center = rowLength / 2
+        (ix + 2*abs(center - ix)) % (length - 1)
+      }
+    }
+
     // Check Rows
     for (i <- 0.until(rowArr.length-1)) {
       // Keep track of the index
@@ -52,7 +61,6 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
       }
     }
 
-
     // Check reversed Rows
     for (i <- 0.until(revRowArr.length -1) if !found) {
       val index = revRowArr(i).indexOf(word)
@@ -60,13 +68,8 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
         found = true
         val rowLength = revRowArr.length
         val endIndex = index + length - 1
-        if (rowLength % 2 == 0) {
-          (startCoord, endCoord) = ((i, (length - 1) - 2*index + index), (i, (length - 1) - 2*endIndex + endIndex))
-        } else {
-          val center = rowLength / 2
-          (startCoord, endCoord) = ((i, (index + 2*abs(center - index)) % (length - 1)), (i, (endIndex + 2*abs(center - endIndex)) % (length - 1)))
-        }
         
+        (startCoord, endCoord) = ((i, revRowIndex(rowLength, index)), (i, revRowIndex(rowLength, endIndex)))
       }
     }
 
