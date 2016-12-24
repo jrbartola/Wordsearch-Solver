@@ -1,4 +1,5 @@
 import scala.math._
+import ImplicitHelpers._
 
 class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, Int)) {
   /* Constructor Setup:
@@ -100,12 +101,15 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     // Return None is the word was not found
     None
 
-
-
   }
 
   private def exposeString(mat: Map[(Int, Int), Boolean], start: (Int, Int), end: (Int, Int)): String = {
     
+    val modifiedBits = start.to(end).foldLeft(mat) { (m: Map[(Int, Int), Boolean], c: (Int, Int) => 
+      m + (c -> true)
+    }
+
+    toString(modifiedBits)
   }
 
   override def toString(): String = {
@@ -117,6 +121,22 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   	  b ++= "\n"
   	}
   	b.toString
+  }
+
+  override def toString(mat: Map[(Int, Int), Boolean]): String = {
+    val b = new StringBuilder(dim._1 * dim._2 * 3)
+    for (r <- 0.until(dim._1)) {
+      for (c <- 0.until(dim._2)) {
+        // Now we filter out characters that aren't marked
+        mat.get((r, c)) match {
+          case Some(bool) if bool => b ++= matrix(r)(c)
+          case Some(bool) if !bool => b ++= "  "
+          case None => b ++= "  "
+        }
+      }
+      b ++= "\n"
+    }
+    b.toString
   }
 
 }
