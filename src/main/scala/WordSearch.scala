@@ -21,7 +21,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   *  
   *  If the word was not found, the entire matrix is returned
   */
-  def find(word: String): String = findWord(word) match {
+  def find(word: String): String = findWord(mappedBitVector, word) match {
   	case Some(stringrep) => stringrep
   	case None => toString()
   }
@@ -44,7 +44,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     */
 
     val length = word.length
-    var (startCoord, endCoord) = ((0,0), (0,0))
+    //var (startCoord, endCoord) = ((0,0), (0,0))
 
     // Formulae to calculate starting and ending indices of words in the matrix
     def revIndex(rowLength: Int, ix: Int): Int = rowLength match {
@@ -60,7 +60,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
       // Keep track of the index
       val index = rowArr(i).indexOf(word)
       if (index != -1) {
-        (startCoord, endCoord) = ((i, index), (i, index + length - 1))
+        val (startCoord, endCoord) = ((i, index), (i, index + length - 1))
         return Some(exposeString(mat, startCoord, endCoord))
       }
     }
@@ -72,28 +72,28 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
         val rowLength = revRowArr.length
         val endIndex = index + length - 1
         
-        (startCoord, endCoord) = ((i, revRowIndex(rowLength, index)), (i, revRowIndex(rowLength, endIndex)))
+        val (startCoord, endCoord) = ((i, revIndex(rowLength, index)), (i, revIndex(rowLength, endIndex)))
         return Some(exposeString(mat, startCoord, endCoord))
       }
     }
 
     // Check Columns
     for (j <- 0.until(colArr.length -1)) {
-      val index = colArr(i).indexOf(word)
+      val index = colArr(j).indexOf(word)
       if (index != -1) {
-        (startCoord, endCoord) = ((index, i), (index + length - 1, i))
+        val (startCoord, endCoord) = ((index, j), (index + length - 1, j))
         return Some(exposeString(mat, startCoord, endCoord))
       }
     }
 
     // Check reversed Columns
     for (j <- 0.until(revColArr.length -1)) {
-      val index = revColArr(i).indexOf(word)
+      val index = revColArr(j).indexOf(word)
       if (index != -1) {
         val colLength = revColArr.length
         val endIndex = index + length - 1
         
-        (startCoord, endCoord) = ((revRowIndex(colLength, index), i), (revRowIndex(colLength, endIndex), i))
+        val (startCoord, endCoord) = ((revIndex(colLength, index), j), (revIndex(colLength, endIndex), j))
         return Some(exposeString(mat, startCoord, endCoord))
       }
     }
@@ -105,7 +105,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
 
   private def exposeString(mat: Map[(Int, Int), Boolean], start: (Int, Int), end: (Int, Int)): String = {
     
-    val modifiedBits = start.to(end).foldLeft(mat) { (m: Map[(Int, Int), Boolean], c: (Int, Int) => 
+    val modifiedBits = start.to(end).foldLeft(mat) { (m: Map[(Int, Int), Boolean], c: (Int, Int)) => 
       m + (c -> true)
     }
 
@@ -123,13 +123,13 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   	b.toString
   }
 
-  override def toString(mat: Map[(Int, Int), Boolean]): String = {
+  def toString(mat: Map[(Int, Int), Boolean]): String = {
     val b = new StringBuilder(dim._1 * dim._2 * 3)
     for (r <- 0.until(dim._1)) {
       for (c <- 0.until(dim._2)) {
         // Now we filter out characters that aren't marked
         mat.get((r, c)) match {
-          case Some(bool) if bool => b ++= matrix(r)(c)
+          case Some(bool) if bool => b ++= matrix(r)(c)+ " "
           case Some(bool) if !bool => b ++= "  "
           case None => b ++= "  "
         }
