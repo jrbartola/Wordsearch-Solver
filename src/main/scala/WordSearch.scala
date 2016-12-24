@@ -1,3 +1,4 @@
+
 import scala.math._
 import ImplicitHelpers._
 
@@ -130,4 +131,11 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     b.toString
   }
 
+}
+
+// Companion Object
+object WordSearch {
+  def apply(matrix: Array[Array[Char]], dim: (Int, Int)): WordSearch = {
+    new WordSearch(matrix, dim)
+  }
 }
