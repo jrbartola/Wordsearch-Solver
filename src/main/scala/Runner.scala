@@ -11,7 +11,8 @@ object Solver {
     val wsmat = 0.until(n).map(x => s.nextLine.replace(" ", "").map(c => c).toArray).toArray
     val ws = new WordSearch(wsmat, (n, wsmat(0).length))
 
-    // TODO: Implement finding algorithm given a list of words
     val wlist = 0.to(26).map(x => s.nextLine).toList
+    println("Let's solve your Word Search...")
+    print(ws.find(wlist))
   }
 }
