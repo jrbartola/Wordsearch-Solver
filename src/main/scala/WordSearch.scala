@@ -12,7 +12,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   							map(x => x.mkString).toArray
   val revColArr: Array[String] = colArr.map(x => x.reverse)
   // Create an empty bit vector to represent visible characters in the printed matrix
-  val mappedBitVector: Map[(Int, Int), Boolean] = {
+  var mappedBitVector: Map[(Int, Int), Boolean] = {
     0.until(dim._1).toList.flatMap(x => 0.until(dim._2).toList.map(y => (x,y) -> false)).toMap
   }
   
@@ -23,12 +23,12 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   */
   def find(word: String): String = findWord(mappedBitVector, word) match {
   	case Some(stringrep) => stringrep
-  	case None => toString()
+  	case None => toString(mappedBitVector)
   }
 
 
   def find(words: List[String]): String = {
-    "temp"
+    words.map(w => find(w)).last
   }
 
   private def findWord(mat: Map[(Int, Int), Boolean], word: String): Option[String] = {
@@ -97,6 +97,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
       m + (c -> true)
     }
 
+    mappedBitVector = modifiedBits
     toString(modifiedBits)
   }
 

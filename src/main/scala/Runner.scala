@@ -1,7 +1,17 @@
 
+import java.util.Scanner
 
 object Solver {
   def main(args: Array[String]): Unit = {
-  	print("Running solver...")
+
+    val s = new Scanner(System.in);
+    println("Enter the number of lines proceeded by the wordsearch itself")
+    val n = s.nextInt
+    
+    val wsmat = 0.until(n).map(x => s.nextLine.replace(" ", "").map(c => c).toArray).toArray
+    val ws = new WordSearch(wsmat, (n, wsmat(0).length))
+
+    // TODO: Implement finding algorithm given a list of words
+    val wlist = 0.to(26).map(x => s.nextLine).toList
   }
 }
