@@ -1,4 +1,4 @@
-
+import scala.math._
 
 class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, Int)) {
   /* Constructor Setup:
@@ -44,7 +44,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
 
     // Check Rows
     for (i <- 0.until(rowArr.length-1)) {
-      // Keep track of index of 
+      // Keep track of the index
       val index = rowArr(i).indexOf(word)
       if (index != -1) {
         found = true
@@ -54,12 +54,31 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
 
 
     // Check reversed Rows
-    for (i <- 0.until(revRowArr.length -1)) {
-      
+    for (i <- 0.until(revRowArr.length -1) if !found) {
+      val index = revRowArr(i).indexOf(word)
+      if (index != -1) {
+        found = true
+        val rowLength = revRowArr.length
+        val endIndex = index + length - 1
+        if (rowLength % 2 == 0) {
+          (startCoord, endCoord) = ((i, (length - 1) - 2*index + index), (i, (length - 1) - 2*endIndex + endIndex))
+        } else {
+          val center = rowLength / 2
+          (startCoord, endCoord) = ((i, (index + 2*abs(center - index)) % (length - 1)), (i, (endIndex + 2*abs(center - endIndex)) % (length - 1)))
+        }
+        
+      }
     }
 
     // Check Columns
-    for (j <- 0.until(colArr))
+    for (j <- 0.until(colArr.length -1) if !found) {
+
+    }
+
+    // Check reversed Columns
+    for (j <- 0.until(revColArr.length -1) if !found) {
+
+    }
 
 
 
