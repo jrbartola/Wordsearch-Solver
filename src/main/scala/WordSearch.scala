@@ -30,7 +30,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     "temp"
   }
 
-  private def findWord(mat: Array[Array[Char]], word: String): Option[String] = {
+  private def findWord(mat: Map[(Int, Int), Boolean], word: String): Option[String] = {
     /* 1. Search for word in each row-- this is easy.
     *     - Go through each string in the rowArr and revRowArr
     *       and note the starting index and ending index
@@ -104,8 +104,8 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
 
   }
 
-  private def exposeString(mat: Array[Array[Char]], start: (Int, Int), end: (Int, Int)): String = {
-
+  private def exposeString(mat: Map[(Int, Int), Boolean], start: (Int, Int), end: (Int, Int)): String = {
+    
   }
 
   override def toString(): String = {
