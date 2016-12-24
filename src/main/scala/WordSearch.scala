@@ -10,7 +10,11 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   val colArr: Array[String] = 0.until(dim._2).map(r => 0.until(dim._1).map(c => matrix(c)(r))).
   							map(x => x.mkString).toArray
   val revColArr: Array[String] = colArr.map(x => x.reverse)
-
+  // Create an empty bit vector to represent visible characters in the printed matrix
+  val mappedBitVector: Map[(Int, Int), Boolean] = {
+    0.until(dim._1).toList.flatMap(x => 0.until(dim._2).toList.map(y => (x,y) -> false)).toMap
+  }
+  
   /* Prints out a string representation of the matrix
   *  with the param word identified
   *  
