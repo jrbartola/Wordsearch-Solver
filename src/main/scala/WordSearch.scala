@@ -35,7 +35,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   private def findWord(mat: Map[(Int, Int), Boolean], word: String): Option[String] = {
     /* 1. Search for word in each row-- this is easy.
     *     - Go through each string in the rowArr and revRowArr
-    *       and note the starting index and ending index
+    *       and note the start ing index and ending index
     *       (i.e. add the length of the word to the starting index)
     *     - Count in reverse for revRowArr!
     *  2. Search for words in each column.
@@ -49,7 +49,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     //var (startCoord, endCoord) = ((0,0), (0,0))
 
     // Formulae to calculate starting and ending indices of words in the matrix
-    def revIndex(rowLength: Int, ix: Int): Int = rowLength match {
+    def calcRevIndex(rowLength: Int, ix: Int): Int = rowLength match {
       case x if x % 2 == 0 => (length - 1) - 2*ix + ix
       case x if x % 2 == 1 => {
         val center = rowLength / 2
