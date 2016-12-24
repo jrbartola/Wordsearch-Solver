@@ -32,10 +32,10 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     *       and note the starting index and ending index
     *       (i.e. add the length of the word to the starting index)
     *     - Count in reverse for revRowArr!
-    *  2. Search for words in each column. 
-    *
-    *
-    *
+    *  2. Search for words in each column.
+    *     - Go through each string in the colArr and revColArr
+    *       and if found, reverse the coordinates to transform
+    *       the matrix to its original row-oriented state!
     */
 
     val length = word.length
@@ -74,12 +74,23 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
 
     // Check Columns
     for (j <- 0.until(colArr.length -1)) {
-
+      val index = colArr(i).indexOf(word)
+      if (index != -1) {
+        (startCoord, endCoord) = ((index, i), (index + length - 1, i))
+        return Some(exposeString(mat, startCoord, endCoord))
+      }
     }
 
     // Check reversed Columns
     for (j <- 0.until(revColArr.length -1)) {
-
+      val index = revColArr(i).indexOf(word)
+      if (index != -1) {
+        val colLength = revColArr.length
+        val endIndex = index + length - 1
+        
+        (startCoord, endCoord) = ((revRowIndex(colLength, index), i), (revRowIndex(colLength, endIndex), i))
+        return Some(exposeString(mat, startCoord, endCoord))
+      }
     }
 
     // Return None is the word was not found
