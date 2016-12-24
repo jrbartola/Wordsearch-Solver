@@ -26,7 +26,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     "temp"
   }
 
-  private def findWord(word: String): Option[String] = {
+  private def findWord(mat: Array[Array[Char]], word: String): Option[String] = {
     /* 1. Search for word in each row-- this is easy.
     *     - Go through each string in the rowArr and revRowArr
     *       and note the starting index and ending index
@@ -39,11 +39,10 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     */
 
     val length = word.length
-    var found = false
     var (startCoord, endCoord) = ((0,0), (0,0))
 
     // Formulae to calculate starting and ending indices of words in the matrix
-    def revRowIndex(rowLength: Int, ix: Int): Int = rowLength match {
+    def revIndex(rowLength: Int, ix: Int): Int = rowLength match {
       case x if x % 2 == 0 => (length - 1) - 2*ix + ix
       case x if x % 2 == 1 => {
         val center = rowLength / 2
@@ -56,34 +55,41 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
       // Keep track of the index
       val index = rowArr(i).indexOf(word)
       if (index != -1) {
-        found = true
         (startCoord, endCoord) = ((i, index), (i, index + length - 1))
+        return Some(exposeString(mat, startCoord, endCoord))
       }
     }
 
     // Check reversed Rows
-    for (i <- 0.until(revRowArr.length -1) if !found) {
+    for (i <- 0.until(revRowArr.length -1)) {
       val index = revRowArr(i).indexOf(word)
       if (index != -1) {
-        found = true
         val rowLength = revRowArr.length
         val endIndex = index + length - 1
         
         (startCoord, endCoord) = ((i, revRowIndex(rowLength, index)), (i, revRowIndex(rowLength, endIndex)))
+        return Some(exposeString(mat, startCoord, endCoord))
       }
     }
 
     // Check Columns
-    for (j <- 0.until(colArr.length -1) if !found) {
+    for (j <- 0.until(colArr.length -1)) {
 
     }
 
     // Check reversed Columns
-    for (j <- 0.until(revColArr.length -1) if !found) {
+    for (j <- 0.until(revColArr.length -1)) {
 
     }
 
+    // Return None is the word was not found
+    None
 
+
+
+  }
+
+  private def exposeString(mat: Array[Array[Char]], start: (Int, Int), end: (Int, Int)): String = {
 
   }
 
