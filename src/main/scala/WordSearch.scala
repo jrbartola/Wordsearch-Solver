@@ -145,6 +145,37 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
         return Some(exposeString(mat, startCoord, endCoord))
       }
     }
+    
+    // Check obverse diagonals (top-right to bottom-left)
+    for (k <- 0.until(diagArr.length)) {
+      // Keep track of index for normalized and reversed word
+      val index = diagArr(k).indexOf(word)
+      val revIndex = diagArr(k).indexOf(revword)
+      val entrySize = diagArr(k).length
+      
+      // There are two formulae for transforming diagonal coords to the matrix
+      if (k < ceil((diagArr.length / 2.0)).toInt) {
+        if (index != -1) {
+          val (startCoord, endCoord) = ((index, (j+1) - index), (index + length - 1, (j+2) - index - length))
+          return Some(exposeString(mat, startCoord, endCoord)) 
+        } else if (revIndex != -1) {
+          val (startCoord, endCoord) = ((revIndex, (j+1) - revIndex), (revIndex + length - 1, (j+2) - revIndex - length))
+          return Some(exposeString(mat, startCoord, endCoord))
+        }
+      } else {
+        if (index != -1) {
+          val startCoord = (j - dim._1 + 2 + index, dim._2 - 1 - index)
+          val endCoord = (j - dim._1 + 1 + index + length, dim._2 - index - length)
+          return Some(exposeString(mat, startCoord, endCoord)) 
+        } else if (revIndex != -1) {
+          val startCoord = (j - dim._1 + 2 + revIndex, dim._2 - 1 - revIndex)
+          val endCoord = (j - dim._1 + 1 + revIndex + length, dim._2 - revIndex - length)
+          return Some(exposeString(mat, startCoord, endCoord))
+        }
+      }
+      
+    }
+
 
     // Return None is the word was not found
     None
