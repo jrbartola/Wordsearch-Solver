@@ -156,24 +156,50 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
       // There are two formulae for transforming diagonal coords to the matrix
       if (k < ceil((diagArr.length / 2.0)).toInt) {
         if (index != -1) {
-          val (startCoord, endCoord) = ((index, (j+1) - index), (index + length - 1, (j+2) - index - length))
+          val (startCoord, endCoord) = ((index, (k+1) - index), (index + length - 1, (k+2) - index - length))
           return Some(exposeString(mat, startCoord, endCoord)) 
         } else if (revIndex != -1) {
-          val (startCoord, endCoord) = ((revIndex, (j+1) - revIndex), (revIndex + length - 1, (j+2) - revIndex - length))
+          val (startCoord, endCoord) = ((revIndex, (k+1) - revIndex), (revIndex + length - 1, (k+2) - revIndex - length))
           return Some(exposeString(mat, startCoord, endCoord))
         }
       } else {
         if (index != -1) {
-          val startCoord = (j - dim._1 + 2 + index, dim._2 - 1 - index)
-          val endCoord = (j - dim._1 + 1 + index + length, dim._2 - index - length)
+          val startCoord = (k - dim._1 + 2 + index, dim._2 - 1 - index)
+          val endCoord = (k - dim._1 + 1 + index + length, dim._2 - index - length)
           return Some(exposeString(mat, startCoord, endCoord)) 
         } else if (revIndex != -1) {
-          val startCoord = (j - dim._1 + 2 + revIndex, dim._2 - 1 - revIndex)
-          val endCoord = (j - dim._1 + 1 + revIndex + length, dim._2 - revIndex - length)
+          val startCoord = (k - dim._1 + 2 + revIndex, dim._2 - 1 - revIndex)
+          val endCoord = (k - dim._1 + 1 + revIndex + length, dim._2 - revIndex - length)
           return Some(exposeString(mat, startCoord, endCoord))
         }
       }
       
+    }
+    
+    // Check reverse diagonals (top-left to bottom-right)
+    for (l <- 0.until(revDiagArr.length)) {
+      // Keep track of index for normalized and reversed word
+      val index = revDiagArr(l).indexOf(word)
+      val revIndex = revDiagArr(l).indexOf(revWord)
+      
+      if (l < ceil((revDiagArr.length / 2.0)).toInt) {
+        if (index != -1) {
+          val (startCoord, endCoord) = ((index, dim._1 - 2 - l + index), (index + length -1, dim._1 - 3 - l + index + length))
+          return Some(exposeString(mat, startCoord, endCoord)) 
+        } else if (revIndex != -1) {
+          val (startCoord, endCoord) = ((revIndex, dim._1 - 2 - l + revIndex), (revIndex + length -1, dim._1 - 3 - l + revIndex + length))
+          return Some(exposeString(mat, startCoord, endCoord))
+        }
+      } else {
+        if (index != -1) {
+          val (startCoord, endCoord) = ((dim._1 - 2 - l + index, index), (dim._1 - 3 - l + index + length, index + length -1))
+          return Some(exposeString(mat, startCoord, endCoord)) 
+        } else if (revIndex != -1) {
+          val (startCoord, endCoord) = ((dim._1 - 2 - l + revIndex, revIndex), (dim._1 - 3 - l + revIndex + length, revIndex + length -1))
+          return Some(exposeString(mat, startCoord, endCoord))
+        }
+      }
+
     }
 
 
