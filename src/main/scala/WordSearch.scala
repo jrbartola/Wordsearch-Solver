@@ -31,7 +31,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
       var col = dim._2 - 1
       var str = ""
 
-      while (row < dim._1) {
+      while (row < dim._1 && col >= 0) {
         str += matrix(row)(col)
         row += 1
         col -= 1
@@ -75,6 +75,10 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   var mappedBitVector: Map[(Int, Int), Boolean] = {
     0.until(dim._1).toList.flatMap(x => 0.until(dim._2).toList.map(y => (x,y) -> false)).toMap
   }
+
+  private def resetBitVector(): Unit = {
+    mappedBitVector = 0.until(dim._1).toList.flatMap(x => 0.until(dim._2).toList.map(y => (x,y) -> false)).toMap
+  }
   
   /* Prints out a string representation of the matrix
   *  with the param word identified
@@ -88,7 +92,9 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
 
 
   def find(words: List[String]): String = {
-    words.map(w => find(w)).last
+    val finBoard = words.map(w => find(w)).last
+    resetBitVector
+    finBoard
   }
 
   private def findWord(mat: Map[(Int, Int), Boolean], word: String): Option[String] = {
@@ -150,7 +156,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     for (k <- 0.until(diagArr.length)) {
       // Keep track of index for normalized and reversed word
       val index = diagArr(k).indexOf(word)
-      val revIndex = diagArr(k).indexOf(revword)
+      val revIndex = diagArr(k).indexOf(revWord)
       val entrySize = diagArr(k).length
       
       // There are two formulae for transforming diagonal coords to the matrix

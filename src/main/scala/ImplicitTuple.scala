@@ -11,12 +11,12 @@ object ImplicitHelpers {
 
         if (tup._2 > tup2._2) {
           // Build up a collection of cordinates on the respective diagonal
-          tup._1.to(tup2._1).foldLeft(List[(Int, Int)]()) { (li: List[(Int, Int)], n: Int) => 
-            (tup._1 + n, tup._2 - n)
+          0.to(tup._2 - tup2._2).foldLeft(List[(Int, Int)]()) { (li: List[(Int, Int)], n: Int) => 
+            (tup._1 + n, tup._2 - n) :: li
           }
         } else {
           0.to(tup2._1-tup._1).foldLeft(List[(Int, Int)]()) { (li: List[(Int, Int)], n: Int) => 
-            (tup._1 + n, tup._2 + n)
+            (tup._1 + n, tup._2 + n) :: li
           }
         }
       } else {

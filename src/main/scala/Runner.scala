@@ -9,15 +9,13 @@ object Solver extends App {
   val n = s.nextInt
   println("Enter your word search: ")
 
-  // Clear the buffer
-  s.nextLine
   val wsmat = 0.until(n).map(x => s.nextLine.replace(" ", "").map(c => c).toArray).toArray
   val ws = WordSearch(wsmat, (n, wsmat(0).length))
 
   println("Enter a list of words to find: ")
 
   val wlist = 0.to(26).map(x => s.nextLine).toList
-  
+
   println("Let's solve your Word Search...")
   print(ws.find(wlist))
 
