@@ -8,10 +8,69 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
   * TODO: Implement diagonal searching
   */
   val rowArr: Array[String] = matrix.map(x => x.mkString)
-  val revRowArr: Array[String] = rowArr.map(x => x.reverse)
   val colArr: Array[String] = 0.until(dim._2).map(r => 0.until(dim._1).map(c => matrix(c)(r))).
   							map(x => x.mkString).toArray
-  val revColArr: Array[String] = colArr.map(x => x.reverse)
+  val diagArr: Array[String] = {
+    var arr: Array[String] = Array()
+    for (i <- 1.until(dim._2)) {
+      var row = 0
+      var col = i
+      var str = ""
+
+      while (col >= 0) {
+        str += matrix(row)(col)
+        col -= 1
+        row += 1
+      }
+      arr = arr :+ str
+    }
+
+    // Second half of obverse diagonals
+    for (j <- 1.until(dim._1 - 1)) {
+      var row = j
+      var col = dim._2 - 1
+      var str = ""
+
+      while (row < dim._1) {
+        str += matrix(row)(col)
+        row += 1
+        col -= 1
+      }
+      arr = arr :+ str
+    }
+    arr
+  }
+
+  val revDiagArr: Array[String] = {
+    var arr: Array[String] = Array()
+    for (i <- (dim._2-2).to(0) by -1) {
+      var row = 0
+      var col = i
+      var str = ""
+
+      while (col < dim._2) {
+        str += matrix(row)(col)
+        row += 1
+        col += 1
+      }
+      arr = arr :+ str
+    }
+
+    for (j <- 1.until(dim._1 - 1)) {
+      var row = j
+      var col = 0
+      var str = ""
+
+      while (row < dim._1) {
+        str += matrix(row)(col)
+        row += 1
+        col += 1
+      }
+      arr = arr :+ str
+    }
+    arr
+  }
+
   // Create an empty bit vector to represent visible characters in the printed matrix
   var mappedBitVector: Map[(Int, Int), Boolean] = {
     0.until(dim._1).toList.flatMap(x => 0.until(dim._2).toList.map(y => (x,y) -> false)).toMap
