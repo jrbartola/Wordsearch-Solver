@@ -189,7 +189,7 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
       val revIndex = revDiagArr(l).indexOf(revWord)
       
       if (l < ceil((revDiagArr.length / 2.0)).toInt) {
-        if (index != -1) {
+        if (index != -1) { 
           val (startCoord, endCoord) = ((index, dim._1 - 2 - l + index), (index + length -1, dim._1 - 3 - l + index + length))
           return Some(exposeString(mat, startCoord, endCoord)) 
         } else if (revIndex != -1) {
@@ -198,10 +198,10 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
         }
       } else {
         if (index != -1) {
-          val (startCoord, endCoord) = ((dim._1 - 2 - l + index, index), (dim._1 - 3 - l + index + length, index + length -1))
+          val (startCoord, endCoord) = ((abs(dim._1 - 2 - l + index), index), (abs(dim._1 - 2 - l + index) + length-1, index + length -1))
           return Some(exposeString(mat, startCoord, endCoord)) 
         } else if (revIndex != -1) {
-          val (startCoord, endCoord) = ((dim._1 - 2 - l + revIndex, revIndex), (dim._1 - 3 - l + revIndex + length, revIndex + length -1))
+          val (startCoord, endCoord) = ((abs(dim._1 - 2 - l + revIndex), revIndex), (abs(dim._1 - 2 - l + revIndex) + length-1, revIndex + length -1))
           return Some(exposeString(mat, startCoord, endCoord))
         }
       }
