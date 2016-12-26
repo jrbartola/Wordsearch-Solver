@@ -198,10 +198,10 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
         }
       } else {
         if (index != -1) {
-          val (startCoord, endCoord) = ((abs(dim._1 - 2 - l + index), index), (abs(dim._1 - 2 - l + index) + length-1, index + length -1))
+          val (startCoord, endCoord) = ((abs(l - (dim._1-2)) + index, index), (abs(l - (dim._1-2)) + index + length-1, index + length -1))
           return Some(exposeString(mat, startCoord, endCoord)) 
         } else if (revIndex != -1) {
-          val (startCoord, endCoord) = ((abs(dim._1 - 2 - l + revIndex), revIndex), (abs(dim._1 - 2 - l + revIndex) + length-1, revIndex + length -1))
+          val (startCoord, endCoord) = ((abs(l - (dim._1-2)) + revIndex, revIndex), (abs(l - (dim._1-2)) + revIndex + length-1, revIndex + length -1))
           return Some(exposeString(mat, startCoord, endCoord))
         }
       }
