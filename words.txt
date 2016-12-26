@@ -1,42 +1,31 @@
 15
-a l n d f s e p z s l i s i o 
-e c d o t r h s r t t y t s r 
-r s c a i y i e e g p c u g g 
-a e t e s s t c o e o y n o a 
-r e n i l u i k t m h i t i n 
-b i c o p e e v m i d c s n i 
-e s d m s y r u e n o k e g z 
-g p o i b i n a a l x n h i a 
-l c m o n i r l t s e m c m t 
-a x a a c g h p e i n t b m i 
-j r c a r n i v a l o l j e o 
-d p t n i a t n u o m n o r n 
-q e g n i t c e r r o c y m r 
-a j h n o t h i n g n i t a h 
-e c n e i c s u o i r a v n b 
-25
-acceleration
-algebra
-carnival
-cheese
-chestnuts
-communicate
+u b t k o c a l c u l u s n n 
+o v l v v o n j i w x c u o i 
+n y u x t g o m l u p m i n j 
+o i r j g n i r u t b t v l v 
+i m p e r a t i v e c e a w s 
+t o m i c l p c r n n r y e c 
+a q i z e l a s u t u z g w o 
+e d l p n w r f i d z z r q m 
+r y e o g s t o e j t z a a p 
+c r r k g w n c i r y y y h u 
+i m c o v i o a r x p l j k t 
+h t k q m r c a q s e g x c e 
+d m u y p e q i k b d b g q r 
+n t n i b k m a a p e b g g s 
+r o s s e c o r p n f w t w o 
+14
+calculus
 computers
-correcting
-friction
-going
-hating
-immerman
-keyboard
-landing
-mountain
-nothing
-organization
-physics
-prisoner
-ramp
-riding
-science
-state
-television
-various
+contraption
+creation
+function
+imperative
+invention
+logician
+memory
+numbers
+procedural
+processor
+turing
+typedef
