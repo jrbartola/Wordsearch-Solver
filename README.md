@@ -1,5 +1,4 @@
-# Classical Word Search Solver (diagonal searching to come!)
-
+# Classical Word Search Solver
 ## What does it do?
 Remember those little word search puzzles you used to do on the back cover of the newspaper when you were little? Exactly that!
 Enter in a word search and a set of words to find and your word search will be solved in no time at all!
