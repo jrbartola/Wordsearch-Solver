@@ -76,23 +76,32 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     0.until(dim._1).toList.flatMap(x => 0.until(dim._2).toList.map(y => (x,y) -> false)).toMap
   }
 
-  private def resetBitVector(): Unit = {
+
+  // Reset all our previously found words displayed by the bit vector
+  def resetBitVector(): Unit = {
     mappedBitVector = 0.until(dim._1).toList.flatMap(x => 0.until(dim._2).toList.map(y => (x,y) -> false)).toMap
   }
   
   /* Prints out a string representation of the matrix
-  *  with the param word identified
-  *  
-  *  If the word was not found, the entire matrix is returned
+  *  with the param word identified, then resets the bitVector
+  *  matrix for the next search.  
+  *
+  *  If the word was not found, the full wordsearch matrix is returned
   */
-  def find(word: String): String = findWord(mappedBitVector, word) match {
-  	case Some(stringrep) => stringrep
-  	case None => toString(mappedBitVector)
+  def find(word: String, single: Boolean = true): String = findWord(mappedBitVector, word) match {
+  	case Some(stringrep) => {
+      resetBitVector
+      stringrep
+    }
+  	case None => if (single) {resetBitVector; toString} else toString(mappedBitVector)
   }
 
-
+  /* Iterates through a wordset and returns the
+  *  string representation of the completed matrix
+  *  after each word is searched for.
+  */
   def find(words: List[String]): String = {
-    val finBoard = words.map(w => find(w)).last
+    val finBoard = words.map(w => find(w, false)).last
     resetBitVector
     finBoard
   }
@@ -107,20 +116,15 @@ class WordSearch(private val matrix: Array[Array[Char]], private val dim: (Int, 
     *     - Go through each string in the colArr and revColArr
     *       and if found, reverse the coordinates to transform
     *       the matrix to its original row-oriented state!
+    *  3. Search for words in each diagonal.
+    *     - This was the most challenging! It turns out each diagonal
+    *       has two formulae to consistently determine the coordinates of
+    *       a specific letter given its place it the diagonal array and
+    *       the starting index of the word found in any given entry
     */
 
     val length = word.length
     val revWord = word.reverse
-    //var (startCoord, endCoord) = ((0,0), (0,0))
-
-    // Formulae to calculate starting and ending indices of words in the matrix
-    def calcRevIndex(rowLength: Int, ix: Int): Int = rowLength match {
-      case x if x % 2 == 0 => (length - 1) - 2*ix + ix
-      case x if x % 2 == 1 => {
-        val center = rowLength / 2
-        (ix + 2*abs(center - ix)) % (length - 1)
-      }
-    }
 
     // Check Rows
     for (i <- 0.until(rowArr.length)) {
